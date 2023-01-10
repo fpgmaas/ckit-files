@@ -1,0 +1,22 @@
+docker:
+  build:
+    cmd: docker build -t $image_tag .
+    args:
+      - image_tag
+  run-detached:
+    cmd: docker run -dp $port:$port --name $name $image_tag
+    args:
+      - name
+      - port: 80
+      - image_tag
+  run-interactive:
+    cmd: docker run --rm -it --entrypoint bash $image_tag
+    args:
+      - image_tag
+  prune-all:
+    cmd: docker system prune -a
+  list-containers:
+    cmd: docker container ls -a
+  list-images:
+    cmd: docker image ls -a
+
