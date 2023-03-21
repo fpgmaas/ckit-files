@@ -1,0 +1,88 @@
+kubernetes:
+
+  general:
+    autoscaler-status:
+      cmd: kubectl get configmap -n kube-system cluster-autoscaler-status -o yaml
+    get-events:
+      cmd: kubectl get events $allnamespaces
+      booleans:
+        - allnamespaces:
+            prompt: "All namespaces?"
+            if_true: "--all-namespaces"
+
+  config:
+    get-users:
+      cmd: kubectl config view -o jsonpath='{.users[*].name}'
+    get-namespaces:
+      cmd: kubectl get namespace
+    set-namespace:
+      cmd: kubectl config set-context --current --namespace=$namespace
+      args:
+        - namespace
+    get-current-namespace:
+      cmd: "kubectl config view --minify -o jsonpath='{..namespace}'"
+    get-contexts:
+      cmd: kubectl config get-contexts
+    current-context:
+      cmd: kubectl config current-context
+
+  pods:
+    get:
+      cmd: kubectl get pods -o wide $showlabels $allnamespaces $running
+      booleans:
+        - showlabels:
+            prompt: "Show labels?"
+            if_true: "--show-labels"
+            default: false
+        - allnamespaces:
+            prompt: "All namespaces?"
+            if_true: "--all-namespaces"
+        - running:
+            prompt: "Show only running?"
+            if_true: "--field-selector=status.phase=Running"
+    top-cpu:
+      cmd: kubectl top pods $allnamespaces --sort-by=cpu
+      booleans:
+        - allnamespaces:
+            prompt: "All namespaces?"
+            if_true: "--all-namespaces"
+    top-memory:
+      cmd: kubectl top pods $allnamespaces --sort-by=memory
+      booleans:
+        - allnamespaces:
+            prompt: "All namespaces?"
+            if_true: "--all-namespaces"
+    describe:
+      cmd: kubectl describe pods $pod
+      args:
+        - pod
+
+  nodes:
+    get:
+      cmd: kubectl get nodes -o wide $showlabels $allnamespaces
+      booleans:
+        - showlabels:
+            prompt: "Show labels?"
+            if_true: "--show-labels"
+            default: false
+        - allnamespaces:
+            prompt: "All namespaces?"
+            if_true: "--all-namespaces"
+    top-cpu:
+      cmd: kubectl top nodes $allnamespaces --sort-by=cpu
+      booleans:
+        - allnamespaces:
+            prompt: "All namespaces?"
+            if_true: "--all-namespaces"
+    top-memory:
+      cmd: kubectl top nodes $allnamespaces --sort-by=memory
+      booleans:
+        - allnamespaces:
+            prompt: "All namespaces?"
+            if_true: "--all-namespaces"              
+    describe:
+      cmd: kubectl describe nodes $node
+      args:
+        - node
+    
+    

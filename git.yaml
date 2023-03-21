@@ -1,3 +1,9 @@
 git:
   log:
     cmd: git log --all --oneline --graph --decorate
+  checkout-and-pull:
+    cmd: 
+      - git checkout $branch
+      - git pull origin $branch
+    args:
+      - branch: main
