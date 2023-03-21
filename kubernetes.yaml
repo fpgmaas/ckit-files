@@ -20,7 +20,8 @@ kubernetes:
       args:
         - namespace
     get-current-namespace:
-      cmd: "kubectl config view --minify -o jsonpath='{..namespace}'"
+      cmd: 
+        - "kubectl config view --minify --output 'jsonpath={..namespace}'"
     get-contexts:
       cmd: kubectl config get-contexts
     current-context:
@@ -66,9 +67,9 @@ kubernetes:
             if_true: "--show-labels"
             default: false
     top-cpu:
-      cmd: kubectl top nodes $allnamespaces --sort-by=cpu
+      cmd: kubectl top nodes --sort-by=cpu
     top-memory:
-      cmd: kubectl top nodes $allnamespaces --sort-by=memory          
+      cmd: kubectl top nodes --sort-by=memory          
     describe:
       cmd: kubectl describe nodes $node
       args:
