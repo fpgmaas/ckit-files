@@ -59,27 +59,16 @@ kubernetes:
 
   nodes:
     get:
-      cmd: kubectl get nodes -o wide $showlabels $allnamespaces
+      cmd: kubectl get nodes -o wide $showlabels
       booleans:
         - showlabels:
             prompt: "Show labels?"
             if_true: "--show-labels"
             default: false
-        - allnamespaces:
-            prompt: "All namespaces?"
-            if_true: "--all-namespaces"
     top-cpu:
       cmd: kubectl top nodes $allnamespaces --sort-by=cpu
-      booleans:
-        - allnamespaces:
-            prompt: "All namespaces?"
-            if_true: "--all-namespaces"
     top-memory:
-      cmd: kubectl top nodes $allnamespaces --sort-by=memory
-      booleans:
-        - allnamespaces:
-            prompt: "All namespaces?"
-            if_true: "--all-namespaces"              
+      cmd: kubectl top nodes $allnamespaces --sort-by=memory          
     describe:
       cmd: kubectl describe nodes $node
       args:
