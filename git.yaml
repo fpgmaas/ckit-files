@@ -1,9 +1,52 @@
 git:
+
   log:
     cmd: git log --all --oneline --graph --decorate
   checkout-and-pull:
-    cmd: 
+    cmd:
       - git checkout $branch
       - git pull origin $branch
     args:
       - branch: main
+
+  config:
+    list:
+      cmd: git config --list $global
+      booleans: 
+        - global: 
+            prompt: "Global?"
+            if_true: --global
+    set-username:
+      cmd: git config $global user.name "$username"
+      args: 
+        - username
+      booleans: 
+        - global: 
+            prompt: "Global?"
+            if_true: --global
+    set-email:
+      cmd: git config $global user.email "$username"
+      args: 
+        - username
+      booleans: 
+        - global: 
+            prompt: "Global?"
+            if_true: --global
+
+  remote:
+    list:
+      cmd: git remote -v
+    add:
+      cmd: git remote add -f $origin $url
+      args:
+        - origin: origin
+        - url
+    set:
+      cmd: git remote set-url $origin $url
+      args:
+        - origin: origin
+        - url
+    remove:
+      cmd: git remote remove $origin
+      args:
+        - origin: origin
