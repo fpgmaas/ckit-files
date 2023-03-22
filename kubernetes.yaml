@@ -11,8 +11,6 @@ kubernetes:
             if_true: "--all-namespaces"
 
   config:
-    get-users:
-      cmd: kubectl config view -o jsonpath='{.users[*].name}'
     get-namespaces:
       cmd: kubectl get namespace
     set-namespace:
@@ -21,7 +19,7 @@ kubernetes:
         - namespace
     get-current-namespace:
       cmd: 
-        - "kubectl config view --minify --output 'jsonpath={..namespace}'"
+        - "kubectl config view --minify --output 'jsonpath={..namespace}'; echo"
     get-contexts:
       cmd: kubectl config get-contexts
     current-context:
@@ -53,6 +51,12 @@ kubernetes:
         - allnamespaces:
             prompt: "All namespaces?"
             if_true: "--all-namespaces"
+    list-requests-and-limits:
+      cmd: "kubectl get pods $allnamespaces -o=custom-columns='NAME:spec.containers[*].name,MEMREQ:spec.containers[*].resources.requests.memory,MEMLIM:spec.containers[*].resources.limits.memory,CPUREQ:spec.containers[*].resources.requests.cpu,CPULIM:spec.containers[*].resources.limits.cpu'"
+      booleans:
+        - allnamespaces:
+            prompt: "All namespaces?"
+            if_true: "--all-namespaces"
     describe:
       cmd: kubectl describe pods $pod
       args:
@@ -69,7 +73,9 @@ kubernetes:
     top-cpu:
       cmd: kubectl top nodes --sort-by=cpu
     top-memory:
-      cmd: kubectl top nodes --sort-by=memory          
+      cmd: kubectl top nodes --sort-by=memory 
+    get-external-ips:
+      cmd: kubectl get nodes -o jsonpath='{.items[*].status.addresses[?(@.type=="ExternalIP")].address}'
     describe:
       cmd: kubectl describe nodes $node
       args:

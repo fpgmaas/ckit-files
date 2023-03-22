@@ -11,7 +11,7 @@ It is also possible to place the configuration files in your current working dir
 
 ## Quickstart
 
-If you do not have `ckit` installed yet and want to quickly get started with any of the files here, run the following set of commands:
+If you do not have `ckit` installed yet and want to quickly get started with any of the files here, run the following set of commands. Here, `kubernetes.yaml` can be replaced with any of the other `yaml` files in this repository.
 
 ```shell
 pip install ckit
@@ -27,3 +27,13 @@ ckit
 ```
 
 For more information, see the [documentation](https://fpgmaas.github.io/ckit/).
+
+---
+
+## Examples
+
+### kubernetes.yaml
+
+<p align="center">
+<img src="static/kubernetes.gif" width = "100%"/>
+</p>
