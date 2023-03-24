@@ -27,7 +27,7 @@ kubernetes:
 
   pods:
     get:
-      cmd: kubectl get pods -o wide $showlabels $allnamespaces $running
+      cmd: kubectl get pods -o wide $showlabels $allnamespaces $running $sortbynodename
       booleans:
         - showlabels:
             prompt: "Show labels?"
@@ -39,6 +39,9 @@ kubernetes:
         - running:
             prompt: "Show only running?"
             if_true: "--field-selector=status.phase=Running"
+        - sortbynodename:
+            prompt: "Sort by node name?"
+            if_true: --sort-by="{.spec.nodeName}"
     top-cpu:
       cmd: kubectl top pods $allnamespaces --sort-by=cpu
       booleans:
@@ -70,6 +73,8 @@ kubernetes:
             prompt: "Show labels?"
             if_true: "--show-labels"
             default: false
+    get-taints:
+      cmd: kubectl describe nodes | egrep "Name:|Taints:"
     top-cpu:
       cmd: kubectl top nodes --sort-by=cpu
     top-memory:
